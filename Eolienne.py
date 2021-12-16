@@ -17,10 +17,7 @@ class Eolienne:
         self.x = x
         self.y = y 
         self.fenetre = fenetre
-        image = pygame.image.load("eolienne.png").convert_alpha()
-        self.image = pygame.transform.scale(image, (30,30))
-        Eolienne.nb+=1
-        self.name = "eolienne"+str(Eolienne.nb)
+        
         
      
     def dessiner(self):

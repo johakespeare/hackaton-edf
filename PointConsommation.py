@@ -7,3 +7,4 @@ class PointConsommation(Point):
         self.name = name
         self.lieu = lieu
         self.puissance = puissance
+        
