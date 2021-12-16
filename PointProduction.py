@@ -21,6 +21,7 @@ class PointProduction(Point):
         self.puissanceMin = 0
         self.puissanceMax = 150
         self.renouvelable = renouvelable
+        print("carotte")
 
     def ajouterPuissance(self):
         if self.puissance + 10 > self.puissanceMax:
