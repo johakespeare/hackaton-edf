@@ -8,6 +8,9 @@ Created on Thu Dec 16 10:34:33 2021
 from Eolienne import Eolienne 
 import pygame
 from pygame.locals import *
+from PointProduction import *
+
+from Jeu import *
 
 """CONSTANTES"""
 
@@ -134,30 +137,30 @@ def dessinerEolienne(fenetre,x,y):
     #image = pygame.transform.scale(image, (30,30))
     #fenetre.blit(image, (x,y))
     
-    eolienne = Eolienne(x,y,fenetre)
+    eolienne = PointProduction("nom","lieu",None,x,y,fenetre,"eolienne.png")
     eolienne.dessiner()
     points.append(eolienne)
     
     
 def dessinerThermique(fenetre,x,y):
-    image = pygame.image.load("thermo.png").convert_alpha()
-    image = pygame.transform.scale(image, (50,50))
-    fenetre.blit(image, (x,y))
+    thermique = PointProduction("nom","lieu",None,x,y,fenetre,"thermo.png")
+    thermique.dessiner()
+    points.append(thermique)
     
 def dessinerBiogaz(fenetre,x,y):
-    image = pygame.image.load("biogaz.png").convert_alpha()
-    image = pygame.transform.scale(image, (50,50))
-    fenetre.blit(image, (x,y))
+    biogaz = PointProduction("nom","lieu",None,x,y,fenetre,"biogaz.png")
+    biogaz.dessiner()
+    points.append(biogaz)
 
 def dessinerPhoto(fenetre,x,y):
-    image = pygame.image.load("solaire.png").convert_alpha()
-    image = pygame.transform.scale(image, (50,50))
-    fenetre.blit(image, (x,y))
+    eolienne = PointProduction("nom","lieu",None,x,y,fenetre,"solaire.png")
+    eolienne.dessiner()
+    points.append(eolienne)
 
 def dessinerHydro(fenetre,x,y):
-    image = pygame.image.load("hydro.png").convert_alpha()
-    image = pygame.transform.scale(image, (50,50))
-    fenetre.blit(image, (x,y))    
+    eolienne = PointProduction("nom","lieu",None,x,y,fenetre,"hydro.png")
+    eolienne.dessiner()
+    points.append(eolienne)   
 
 
 
@@ -174,6 +177,7 @@ def afficherReseaux():
         texte = str(lien[0].name)+" et "+ str(lien[1].name)
         texte = myfont.render("reseau : "+ str(texte), True, (0, 0, 0))
         fenetre.blit(texte,(x,y))
+        y += 30
 
 def afficherPoints():
     x = 0
@@ -249,6 +253,7 @@ while continuer:
                                      pygame.draw.line( fenetre , ORANGE , [couple[0].x, couple[0].y], [couple[1].x,couple[1].y], 5 )
                                      reseau.append((couple[0],couple[1]))
                                      couple.clear()
+                                     
                
   
             elif event.type == pygame.MOUSEBUTTONUP:
@@ -267,4 +272,3 @@ while continuer:
         
             
               
-                
