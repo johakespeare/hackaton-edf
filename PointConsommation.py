@@ -1,14 +1,19 @@
 from Point import Point
-
+import pygame
 
 class PointConsommation(Point):
 
-    def __init__(self, name, puissance):
+    def __init__(self, name, puissance, lieu,fenetre,x,y):
         self.name = name
-<<<<<<< HEAD
         self.lieu = lieu
         self.puissance = puissance
-        
-=======
         self.puissance = puissance
->>>>>>> a1aa84708d4061a5344340c84d6bd2b41f8dd9c4
+        self.fenetre = fenetre
+        image = pygame.image.load("point.jpg").convert_alpha()
+        self.image = pygame.transform.scale(image, (30,30))
+        self.x = x
+        self.y = y
+
+    def dessiner(self):
+        self.fenetre.blit(self.image, (self.x,self.y))
+        self.boutonClass = pygame.Rect(self.x, self.y, 30, 30)

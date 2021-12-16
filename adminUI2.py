@@ -9,6 +9,7 @@ from Eolienne import Eolienne
 import pygame
 from pygame.locals import *
 from PointProduction import *
+from PointConsommation import*
 
 from Jeu import *
 
@@ -23,6 +24,7 @@ BLANC = (245,245,245)
  
 points = []
 reseau = []
+points2 = []
 
 pygame.init()
 fenetre = pygame.display.set_mode((LARGEUR, HAUTEUR))
@@ -80,9 +82,11 @@ fenetre.blit(texteStart,(LARGEUR+5 - LARGEUR/3 + 10 + 10, HAUTEUR-HAUTEUR/3 + 5 
 textePause = myfont.render('Pause', True, (0, 0, 0))
 fenetre.blit(textePause,(LARGEUR+5 - LARGEUR/3 + 55 + 10 + 10, HAUTEUR-HAUTEUR/3 + 5 + 2))
 
+
+
 #afficherOutils
 
-LARGEUR_OUTILS = 230
+LARGEUR_OUTILS = 240
 OUTILS_X = LARGEUR/3 -250 + 20
 
 outils =  pygame.Rect(OUTILS_X  ,0, LARGEUR_OUTILS, 50) 
@@ -129,43 +133,62 @@ boutonTracer = pygame.Rect(OUTILS_X + 180 , 10 , 30,30)
 fenetre.blit(image_tracer,(OUTILS_X+180,10))
     
 
-            
-    
+image_consom = pygame.image.load("point.jpg").convert_alpha()
+image_consom = pygame.transform.scale(image_consom, (30,30))
+boutonConsom = pygame.Rect(OUTILS_X + 210 , 10 , 30,30)
+
+fenetre.blit(image_consom,(OUTILS_X+ 210,10))            
+   
+
+boutonSave = pygame.Rect(OUTILS_X+ 210 + 50,10, 50, 25)
+pygame.draw.rect(fenetre, [210, 210, 210], boutonSave, border_radius=7) 
+texteSave = myfont.render('Save', True, (0, 0, 0))
+fenetre.blit(texteSave,(OUTILS_X+ 210+50,10))
+
+
 
 def dessinerEolienne(fenetre,x,y):
     #image = pygame.image.load("eolienne.png").convert()
     #image = pygame.transform.scale(image, (30,30))
     #fenetre.blit(image, (x,y))
     
-    eolienne = PointProduction("nom","lieu",None,x,y,fenetre,"eolienne.png")
+    eolienne = PointProduction("nom","lieu",None,x,y,fenetre,"eolienne.png",True)
     eolienne.dessiner()
     points.append(eolienne)
     
     
 def dessinerThermique(fenetre,x,y):
-    thermique = PointProduction("nom","lieu",None,x,y,fenetre,"thermo.png")
+    thermique = PointProduction("nom","lieu",None,x,y,fenetre,"thermo.png",False)
     thermique.dessiner()
     points.append(thermique)
     
 def dessinerBiogaz(fenetre,x,y):
-    biogaz = PointProduction("nom","lieu",None,x,y,fenetre,"biogaz.png")
+    biogaz = PointProduction("nom","lieu",None,x,y,fenetre,"biogaz.png",False)
     biogaz.dessiner()
     points.append(biogaz)
 
 def dessinerPhoto(fenetre,x,y):
-    eolienne = PointProduction("nom","lieu",None,x,y,fenetre,"solaire.png")
+    eolienne = PointProduction("nom","lieu",None,x,y,fenetre,"solaire.png",True)
     eolienne.dessiner()
     points.append(eolienne)
 
 def dessinerHydro(fenetre,x,y):
-    eolienne = PointProduction("nom","lieu",None,x,y,fenetre,"hydro.png")
+    eolienne = PointProduction("nom","lieu",None,x,y,fenetre,"hydro.png",True)
     eolienne.dessiner()
     points.append(eolienne)   
 
 
 
+
+def dessinerConsom(fenetre,x,y):
+    eolienne = PointConsommation("nom",40,"lieu",fenetre,x,y)
+    eolienne.dessiner()
+    points2.append(eolienne)
+
+    
+    
 def drawCircle( fenetre, x, y ): 
-  pygame.draw.circle( fenetre , ORANGE , ( x, y ), 5 )
+    pygame.draw.circle( fenetre , ORANGE , ( x, y ), 5 )
   
 def drawLine( fenetre,x,y,x2,y2):
     pygame.draw.line( fenetre , ORANGE , [x, y], [x2,y2], 5 )
@@ -190,11 +213,6 @@ def afficherPoints():
 
 
 
-def afficherGraphes():
-    pass
-
-  
-    
     
 #BOUCLE INFINIE
 continuer = 1
@@ -204,12 +222,15 @@ couple = []
 
 while continuer:
      for event in pygame.event.get():
-            print(bouton)
+            
             
             for point in points :
-                 if point.boutonPlus.collidepoint(pygame.mouse.get_pos()) and isPressed==True:
-                    points.remove(point)   
-         
+                 if not point.renouvelable :
+                     if point.boutonPlus.collidepoint(pygame.mouse.get_pos()) and isPressed==True:
+                        point.ajouterPuissance()
+                     if point.boutonMoins.collidepoint(pygame.mouse.get_pos()) and isPressed==True:
+                        point.baisserPuissance()
+             
                          
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -227,6 +248,8 @@ while continuer:
                     bouton="biogaz"
             if boutonTracer.collidepoint(pygame.mouse.get_pos()) and isPressed==True:
                     bouton="tracer"
+            if boutonConsom.collidepoint(pygame.mouse.get_pos()) and isPressed==True:
+                    bouton="consom"
                     
                     
             if event.type == pygame.MOUSEBUTTONDOWN:
@@ -244,9 +267,11 @@ while continuer:
                         dessinerHydro(fenetre,x,y)
                    elif bouton=="biogaz":    
                         dessinerBiogaz(fenetre,x,y)
+                   elif bouton=="consom":    
+                        dessinerConsom(fenetre,x,y)
                    elif bouton=="tracer":    
                         
-                        for point in points:
+                        for point in points+points2:
                             if point.boutonClass.collidepoint(pygame.mouse.get_pos()) and isPressed==True :
                                 couple.append(point)
                                 if(len(couple)==2):

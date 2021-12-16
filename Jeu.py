@@ -14,7 +14,7 @@ import time
 import threading
 
 step=0
-pasTemps=5 #en minutes, constante
+pasTemps=15 #en minutes, constante
 facteurTemps=10 #pour accelerer/ralentir
 courbeConso=[] #veritable, definie par l'admin
 courbeRenouvelable=[] #veritable, definie par l'admin
