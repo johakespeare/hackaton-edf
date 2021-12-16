@@ -22,3 +22,8 @@ class GroupeNonRenouvelable(Groupe):
         else:
             self.puissance = self.puissance - retrait
 
+    def arreter(self):
+        self.puissance = 0
+
+    def demarrer(self, value):
+        self.puissance = value
