@@ -31,21 +31,28 @@ etat=[]
 
 
 def loadCourbe(a,b):
-    global courbeMain
+    courbeMain=[]
     with open('courbeConso.csv') as csv_file:
         csv_reader = csv.reader(csv_file, delimiter=',')
         line_count=0
         for row in csv_reader:
             if (line_count>a and line_count<=b):
-                courbeMain.append(row)
+                courbeMain.append(row[1])
             line_count+=1
+    return courbeMain
             
-loadCourbe(a, b)
+def loadCourbe2(a,b):
+    courbeMain=[]
+    with open('courbeConso.csv') as csv_file:
+        csv_reader = csv.reader(csv_file, delimiter=',')
+        line_count=0
+        for row in csv_reader:
+            if (line_count>a and line_count<=b):
+                courbeMain.append(row[2])
+            line_count+=1
+    return courbeMain
 
-consoGlobale=float(courbeMain[0][1]) #mise a jour tous les pas
-prodGlobale=0 #mise a jour tous les pas
-ProdRenouvelable=float(courbeMain[0][2]) #mise a jour tous les pas
-'''
+
 def createPointConso(nbPointsConso):
     for i in range(nbPointsConso):
         nom=input("point conso: nom ")
@@ -69,6 +76,12 @@ def createPointProd(nbPointsProd):
         newPp=PointProduction(nom,lieu,lstGrp)
         pointsProd.append(newPp)
 etat.append(pointsProd)
+
+
+
+        
+        
+        
 '''
 def createPointProd(nom,lieu):
     newPp=PointProduction(nom,lieu,None)
@@ -150,4 +163,4 @@ thread.start()
 
 
 
-#displayCourbe()
+#displayCourbe()'''

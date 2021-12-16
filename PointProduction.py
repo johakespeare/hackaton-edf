@@ -5,7 +5,8 @@ from Eolienne import Eolienne
 
 
 class PointProduction(Point):
-
+    
+    nb = 0
     def __init__(self, name, lieu, groupes, x, y, fenetre, pathImage,renouvelable):
         self.x=x
         self.y=y
@@ -16,7 +17,8 @@ class PointProduction(Point):
         self.puissance = 0;
         image = pygame.image.load(pathImage).convert_alpha()
         self.image = pygame.transform.scale(image, (30,30))
-        self.name = "point de production "+str(Eolienne.nb)
+        PointProduction.nb +=1
+        self.name = "point de production "+str(PointProduction.nb)
         self.puissance = 40
         self.puissanceMin = 0
         self.puissanceMax = 150
@@ -53,24 +55,27 @@ class PointProduction(Point):
     
     def afficher(self,x,y):
         myfont = pygame.font.SysFont('Comic Sans MS', 12)
-        texte = myfont.render(self.name + "capacite = "+ str(self.puissance), True, (0, 0, 0))
+        texte = myfont.render(self.name, True, (0, 0, 0))
         self.fenetre.blit(texte,(x,y))
           
         if not self.renouvelable :
             image_plus = pygame.image.load("plus.png").convert_alpha()
             image_plus = pygame.transform.scale(image_plus, (20,20))
             
-            self.boutonPlus = pygame.Rect(x + 100, y, 20, 20)
-            self.fenetre.blit(image_plus,(x + 100, y))
+            self.boutonPlus = pygame.Rect(x + 130, y, 20, 20)
+            self.fenetre.blit(image_plus,(x + 130, y))
             
             image_moins = pygame.image.load("moins.png").convert_alpha()
             image_moins = pygame.transform.scale(image_moins, (20,20))
             
-            self.boutonMoins = pygame.Rect(x + 100 + 30 , y, 20, 20)
-            self.fenetre.blit(image_moins,(x + 100 + 30, y))
+            self.boutonMoins = pygame.Rect(x + 130+ 30 , y, 20, 20)
+            self.fenetre.blit(image_moins,(x + 130 + 30, y))
             
             image_onoff = pygame.image.load("moins.png").convert_alpha()
             image_onoff = pygame.transform.scale(image_onoff, (20,20))
             
-            self.boutonOnOff = pygame.Rect(x + 100 + 60, y, 20, 20)
-            self.fenetre.blit(image_onoff,(x + 100 + 60, y))
+            self.boutonOnOff = pygame.Rect(x + 130 + 60, y, 20, 20)
+            self.fenetre.blit(image_onoff,(x + 130 + 60, y))
+        
+        texte = myfont.render("capacite = "+ str(self.puissance), True, (0, 0, 0))
+        self.fenetre.blit(texte,(x+10,y+10))
