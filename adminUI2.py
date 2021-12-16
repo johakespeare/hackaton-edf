@@ -145,7 +145,7 @@ pygame.draw.rect(fenetre, [210, 210, 210], boutonSave, border_radius=7)
 texteSave = myfont.render('Save', True, (0, 0, 0))
 fenetre.blit(texteSave,(OUTILS_X+ 210+50,10))
 
-print("carotte")
+
 
 def dessinerEolienne(fenetre,x,y):
     #image = pygame.image.load("eolienne.png").convert()

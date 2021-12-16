@@ -17,4 +17,4 @@ class PointConsommation(Point):
     def dessiner(self):
         self.fenetre.blit(self.image, (self.x,self.y))
         self.boutonClass = pygame.Rect(self.x, self.y, 30, 30)
-        print("carotte")
+        
