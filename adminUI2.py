@@ -231,8 +231,11 @@ pygame.draw.rect(fenetre, [210, 210, 210], boutonSave, border_radius=7)
 texteSave = myfont.render('Save', True, (0, 0, 0))
 fenetre.blit(texteSave,(OUTILS_X+ 210+50,10))
 
-
-
+'''
+def panne(step, pointProd):
+    if step=step:
+        pointProd.arreter()
+  '''      
 
   
 log=[]
@@ -247,32 +250,32 @@ def dessinerEolienne(fenetre,x,y):
     eolienne = PointProduction("nom","lieu",None,x,y,fenetre,"eolienne.png",True)
     eolienne.dessiner()
     points.append(eolienne)
-    log.append(["eolienne","nom","lieu",fenetre,str(x),str(x)])
+    log.append(["eolienne","nom","lieu",fenetre,str(x),str(y)])
     
     
 def dessinerThermique(fenetre,x,y):
     thermique = PointProduction("nom","lieu",None,x,y,fenetre,"thermo.png",False)
     thermique.dessiner()
     points.append(thermique)
-    log.append(["Thermique","nom","lieu",fenetre,str(x),str(x)])
+    log.append(["Thermique","nom","lieu",fenetre,str(x),str(y)])
     
 def dessinerBiogaz(fenetre,x,y):
     biogaz = PointProduction("nom","lieu",None,x,y,fenetre,"biogaz.png",False)
     biogaz.dessiner()
     points.append(biogaz)
-    log.append(["biogaz","nom","lieu",fenetre,str(x),str(x)])
+    log.append(["biogaz","nom","lieu",fenetre,str(x),str(y)])
 
 def dessinerPhoto(fenetre,x,y):
     eolienne = PointProduction("nom","lieu",None,x,y,fenetre,"solaire.png",True)
     eolienne.dessiner()
     points.append(eolienne)
-    log.append(["photo","nom","lieu",fenetre,str(x),str(x)])
+    log.append(["photo","nom","lieu",fenetre,str(x),str(y)])
 
 def dessinerHydro(fenetre,x,y):
     eolienne = PointProduction("nom","lieu",None,x,y,fenetre,"hydro.png",True)
     eolienne.dessiner()
     points.append(eolienne)  
-    log.append(["hydro","nom","lieu",fenetre,str(x),str(x)])
+    log.append(["hydro","nom","lieu",fenetre,str(x),str(y)])
 
 
 
@@ -281,7 +284,7 @@ def dessinerConsom(fenetre,x,y):
     eolienne = PointConsommation("nomlieu",fenetre,x,y)
     eolienne.dessiner()
     points2.append(eolienne)
-    log.append(["conso","nom","lieu",fenetre,str(x),str(x)])
+    log.append(["conso","nom","lieu",fenetre,str(x),str(y)])
 
     
     

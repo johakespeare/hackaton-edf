@@ -1,7 +1,7 @@
-Thermique,nom,lieu,<Surface(1400x800x32 SW)>,817,817
-Thermique,nom,lieu,<Surface(1400x800x32 SW)>,682,682
-conso,nom,lieu,<Surface(1400x800x32 SW)>,626,626
-ligne,<Ligne.Ligne object at 0x000001A03781E288>
-ligne,<Ligne.Ligne object at 0x000001A03781EF08>
-eolienne,nom,lieu,<Surface(1400x800x32 SW)>,772,772
-ligne,<Ligne.Ligne object at 0x000001A03781A288>
+eolienne,nom,lieu,<Surface(1400x800x32 SW)>,644,561
+eolienne,nom,lieu,<Surface(1400x800x32 SW)>,825,369
+Thermique,nom,lieu,<Surface(1400x800x32 SW)>,623,273
+conso,nom,lieu,<Surface(1400x800x32 SW)>,721,409
+ligne,<Ligne.Ligne object at 0x000001A036388CC8>
+ligne,<Ligne.Ligne object at 0x000001A036388F08>
+ligne,<Ligne.Ligne object at 0x000001A0363A06C8>
