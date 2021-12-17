@@ -290,7 +290,7 @@ def afficherPoints():
 
 def updateEtat():
     for i in range(b-a-1):
-        global step,consoGlobale,ProdRenouvelable, productionTotale
+        global step,consoGlobale,ProdRenouvelable, productionTotale,score
         time.sleep((pasTemps/facteurTemps))
         step+=1
 
@@ -304,6 +304,7 @@ def updateEtat():
             somme += e.puissance
             
         productionTotale = somme + ProdRenouvelable
+        score =  productionTotale - consoGlobale
         
         
             
@@ -332,6 +333,7 @@ isPressed = False
 bouton = None
 couple = []
 step = 0
+score = 0
 
 while continuer:
      for event in pygame.event.get():
@@ -370,7 +372,7 @@ while continuer:
                     bouton="consom"
             if boutonStart.collidepoint(pygame.mouse.get_pos()) and isPressed==True:
                     for p in points2:
-                        p.setPuissance(float(courbeMain[step][1])/len(points2))
+                        p.setPuissance(float(courbeConso[step])/len(points2))
                     thread=threading.Thread(target=updateEtat)
                     thread.start()
             if boutonX1.collidepoint(pygame.mouse.get_pos()) and isPressed==True:        
@@ -475,6 +477,8 @@ while continuer:
      fenetre.blit(carotte,(LARGEUR+5 - LARGEUR/3 +10,(HAUTEUR/3 - 50)*2 + 40 + 150 + 20))
      carotte2 = myfont.render('production totale :'+ str(productionTotale), True, (0, 0, 0))
      fenetre.blit(carotte2,(LARGEUR+5 - LARGEUR/3 +10,(HAUTEUR/3 - 50)*2 + 40 + 150 + 20 + 20))
+     carotte3 = myfont.render('Surplus :'+ str(score), True, (0, 0, 0))
+     fenetre.blit(carotte3,(LARGEUR+5 - LARGEUR/3 +10,(HAUTEUR/3 - 50)*2 + 40 + 150 + 20 + 20 + 20))
    
 
         
