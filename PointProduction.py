@@ -24,6 +24,7 @@ class PointProduction(Point):
         self.puissanceMax = 150
         self.renouvelable = renouvelable
         self.allumer = True
+        self.bloque = False
         
       
     def ajouterPuissance(self):
@@ -44,10 +45,19 @@ class PointProduction(Point):
         self.value = self.puissance
         self.puissance = 0
         self.allumer = False
+    
+    def panne(self):
+        
+        self.value = self.puissance
+        self.puissance = 0
+        self.puissanceMax =0
+        self.allumer = False
+        self.bloque = True
 
     def demarrer(self):
-        self.puissance = self.value
-        self.allumer = True
+        if not self.bloque :
+            self.puissance = self.value
+            self.allumer = True
 
     def production(self):
         for i in self.groupes:

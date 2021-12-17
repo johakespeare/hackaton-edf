@@ -233,7 +233,12 @@ fenetre.blit(texteSave,(OUTILS_X+ 210+50,10))
 
 
 
-  
+def  panne ( st , pointProd ):
+      if  st == step:
+          pointProd.panne()
+          pointProd.puissanceMax = 0
+
+
 
 
 
@@ -303,12 +308,14 @@ def afficherPoints():
         
         y += 40
 
-
+st = 20
 def updateEtat():
     for i in range(b-a-1):
         global step,consoGlobale,ProdRenouvelable, productionTotale,score, consoGlobalePrec, productionTotaleTab
         time.sleep((pasTemps/facteurTemps))
         step+=1
+        pointProdPanne = points[1]
+        panne(st, pointProdPanne)
         consoGlobalePrec = consoGlobale
         consoGlobale=float(courbeConso[step])
         ProdRenouvelable=float(courbeENR[step]) 
@@ -393,6 +400,8 @@ while continuer:
                         p.setPuissance(float(courbeConso[step])/len(points2))
                     thread=threading.Thread(target=updateEtat)
                     thread.start()
+                    outils =  pygame.Rect(OUTILS_X  ,0, LARGEUR_OUTILS + 100, 50) 
+                    pygame.draw.rect(fenetre, (58,142,179), outils)  
             
             if boutonRestart.collidepoint(pygame.mouse.get_pos()) and isPressed==True:  
                 if not pause :
