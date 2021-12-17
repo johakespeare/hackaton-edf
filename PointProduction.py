@@ -60,7 +60,7 @@ class PointProduction(Point):
 
     
     def afficher(self,x,y):
-        myfont = pygame.font.SysFont('Comic Sans MS', 12)
+        myfont = pygame.font.SysFont('Times new roman', 16)
         texte = myfont.render(self.name, True, (0, 0, 0))
         self.fenetre.blit(texte,(x,y))
           
@@ -68,22 +68,22 @@ class PointProduction(Point):
             image_plus = pygame.image.load("plus.png").convert_alpha()
             image_plus = pygame.transform.scale(image_plus, (20,20))
             
-            self.boutonPlus = pygame.Rect(x + 130, y, 20, 20)
-            self.fenetre.blit(image_plus,(x + 130, y))
+            self.boutonPlus = pygame.Rect(x + 130 + 20, y, 20, 20)
+            self.fenetre.blit(image_plus,(x + 130 + 20, y))
             
             image_moins = pygame.image.load("moins.png").convert_alpha()
             image_moins = pygame.transform.scale(image_moins, (20,20))
             
-            self.boutonMoins = pygame.Rect(x + 130+ 30 , y, 20, 20)
-            self.fenetre.blit(image_moins,(x + 130 + 30, y))
+            self.boutonMoins = pygame.Rect(x + 130+ 30 + 20 , y, 20, 20)
+            self.fenetre.blit(image_moins,(x + 130 + 30 + 20, y))
             
            
-            boutonOnOffe = pygame.Rect(x + 130 + 60, y, 20, 20)  
+            boutonOnOffe = pygame.Rect(x + 130 + 60 + 20, y, 20, 20)  
             if self.allumer :
                 self.boutonOnOff = pygame.draw.rect(self.fenetre, [0, 255, 0], boutonOnOffe)
             else :
                 self.boutonOnOff = pygame.draw.rect(self.fenetre, [255, 0, 0], boutonOnOffe)
                 
                 
-        texte = myfont.render("capacite = "+ str(self.puissance), True, (0, 0, 0))
-        self.fenetre.blit(texte,(x+10,y+10))
+        texte = myfont.render("capacite = "+ str(self.puissance) +" MW", True, (0, 0, 0))
+        self.fenetre.blit(texte,(x+10,y+10+10))

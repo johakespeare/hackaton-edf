@@ -36,5 +36,5 @@ class Ligne:
   
 
                 
-        texte = myfont.render("transit = "+ str(self.transit), True, (0, 0, 0))
+        texte = myfont.render("transit = "+ str(self.transit) +"MW", True, (0, 0, 0))
         fenetre.blit(texte,(x+10,y+20))

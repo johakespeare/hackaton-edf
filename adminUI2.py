@@ -31,7 +31,7 @@ consoGlobalePrec = 0
 
 pygame.init()
 fenetre = pygame.display.set_mode((LARGEUR, HAUTEUR))
-myfont = pygame.font.SysFont('Comic Sans MS', 12)
+myfont = pygame.font.SysFont('Times new roman', 16)
 fenetre.fill((58,142,179))
 
 """AFFICHAGE"""
@@ -87,7 +87,7 @@ def afficherCourbeConso():
          pygame.draw.line( surface , (0,255,0) , [x,HAUTEUR/5 - productionTotaleTab[i] + 150], [x+5,HAUTEUR/5 - productionTotaleTab[i+1] + 150], 2)
          x+=5
      fenetre.blit(surface,(LARGEUR+5 - LARGEUR/3 + 10,10))
-     texteSave = myfont.render('indication : Courbe de consommation (mW)', True, (0, 0, 0))
+     texteSave = myfont.render('Courbe de consommation (mW)', True, (0, 0, 0))
      fenetre.blit(texteSave,(LARGEUR+5 - LARGEUR/3 + 10,HAUTEUR/3 - 50 + 10))
 
 
@@ -107,7 +107,7 @@ def afficherCourbeEolienne():
          x+=5
     
      fenetre.blit(surface,(LARGEUR+5 - LARGEUR/3 +10,HAUTEUR/2 -150))
-     texteSave = myfont.render('indication : Courbe ENR (mW)', True, (0, 0, 0))
+     texteSave = myfont.render('Courbe ENR (mW)', True, (0, 0, 0))
      fenetre.blit(texteSave,(LARGEUR+5 - LARGEUR/3 +10,(HAUTEUR/3 - 50)*2 + 40))
      
     
@@ -138,13 +138,13 @@ boutonX100  = pygame.Rect(LARGEUR+5 - LARGEUR/3 + 70, HAUTEUR-HAUTEUR/3 + 55, 25
 boutonX1000  = pygame.Rect(LARGEUR+5 - LARGEUR/3 + 100, HAUTEUR-HAUTEUR/3 + 55, 35, 25)
 
 texte1 = myfont.render(' x1', True, (0, 0, 0))
-fenetre.blit(texte1,(LARGEUR+5 - LARGEUR/3 + 10, HAUTEUR-HAUTEUR/3 + 55))
+fenetre.blit(texte1,(LARGEUR+5 - LARGEUR/3 + 20, HAUTEUR-HAUTEUR/3 + 55))
 texte10 = myfont.render(' x10', True, (0, 0, 0))
-fenetre.blit(texte10,(LARGEUR+5 - LARGEUR/3 + 40, HAUTEUR-HAUTEUR/3 + 55))
+fenetre.blit(texte10,(LARGEUR+5 - LARGEUR/3 + 40 + 20, HAUTEUR-HAUTEUR/3 + 55))
 texte100 = myfont.render('x100', True, (0, 0, 0))
-fenetre.blit(texte100,(LARGEUR+5 - LARGEUR/3 + 70, HAUTEUR-HAUTEUR/3 + 55))
+fenetre.blit(texte100,(LARGEUR+5 - LARGEUR/3 + 70 + 20 + 30, HAUTEUR-HAUTEUR/3 + 55))
 texte1000 = myfont.render('x1000', True, (0, 0, 0))
-fenetre.blit(texte1000,(LARGEUR+5 - LARGEUR/3 + 100, HAUTEUR-HAUTEUR/3 + 55))
+fenetre.blit(texte1000,(LARGEUR+5 - LARGEUR/3 + 100 + 20 + 50, HAUTEUR-HAUTEUR/3 + 55))
 
 texteSave = myfont.render('Facteur de temps : '+str(facteurTemps), True, (0, 0, 0))
 fenetre.blit(texteSave,(LARGEUR+5 - LARGEUR/3 + 10, HAUTEUR-HAUTEUR/3 + 30))  
@@ -211,7 +211,7 @@ boutonBiogaz = pygame.Rect(OUTILS_X + 145 , 10 , 30,30)
 
 fenetre.blit(image_biogaz,(OUTILS_X+145,10))
     
-image_tracer = pygame.image.load("biogaz.png").convert_alpha()
+image_tracer = pygame.image.load("ligne.png").convert_alpha()
 image_tracer = pygame.transform.scale(image_tracer, (30,30))
 boutonTracer = pygame.Rect(OUTILS_X + 180 , 10 , 30,30)
 
@@ -321,7 +321,7 @@ def updateEtat():
             
         productionTotale = somme + ProdRenouvelable
         productionTotaleTab.append(productionTotale)
-        score =  productionTotale - consoGlobale
+        score =  (productionTotale / consoGlobale)*100
         
         
             
@@ -462,9 +462,9 @@ while continuer:
      boutonStart = pygame.Rect(LARGEUR+5 - LARGEUR/3 + 10, HAUTEUR-HAUTEUR/3 + 5, 50, 25)
      boutonRestart = pygame.Rect(LARGEUR+5 - LARGEUR/3 + 55 + 10, HAUTEUR-HAUTEUR/3 + 5, 50, 25)
      boutonX1  = pygame.Rect(LARGEUR+5 - LARGEUR/3 + 10, HAUTEUR-HAUTEUR/3 + 55, 25, 25)
-     boutonX10  = pygame.Rect(LARGEUR+5 - LARGEUR/3 + 40, HAUTEUR-HAUTEUR/3 + 55, 25, 25)
-     boutonX100  = pygame.Rect(LARGEUR+5 - LARGEUR/3 + 70, HAUTEUR-HAUTEUR/3 + 55, 25, 25)
-     boutonX1000  = pygame.Rect(LARGEUR+5 - LARGEUR/3 + 100, HAUTEUR-HAUTEUR/3 + 55, 35, 25)
+     boutonX10  = pygame.Rect(LARGEUR+5 - LARGEUR/3 + 40 , HAUTEUR-HAUTEUR/3 + 55, 25+5, 25)
+     boutonX100  = pygame.Rect(LARGEUR+5 - LARGEUR/3 + 70 +15, HAUTEUR-HAUTEUR/3 + 55, 25+10, 25)
+     boutonX1000  = pygame.Rect(LARGEUR+5 - LARGEUR/3 + 100 + 20 + 15, HAUTEUR-HAUTEUR/3 + 55, 35, 25)
   
     
      pygame.draw.rect(fenetre, GRIS, labelDroit)  
@@ -481,13 +481,13 @@ while continuer:
      texte1 = myfont.render(' x1', True, (0, 0, 0))
      fenetre.blit(texte1,(LARGEUR+5 - LARGEUR/3 + 10, HAUTEUR-HAUTEUR/3 + 55))
      texte10 = myfont.render(' x10', True, (0, 0, 0))
-     fenetre.blit(texte10,(LARGEUR+5 - LARGEUR/3 + 40, HAUTEUR-HAUTEUR/3 + 55))
+     fenetre.blit(texte10,(LARGEUR+5 - LARGEUR/3 + 40 , HAUTEUR-HAUTEUR/3 + 55))
      texte100 = myfont.render('x100', True, (0, 0, 0))
-     fenetre.blit(texte100,(LARGEUR+5 - LARGEUR/3 + 70, HAUTEUR-HAUTEUR/3 + 55))
+     fenetre.blit(texte100,(LARGEUR+5 - LARGEUR/3 + 70 +10 + 5, HAUTEUR-HAUTEUR/3 + 55))
      texte1000 = myfont.render('x1000', True, (0, 0, 0))
-     fenetre.blit(texte1000,(LARGEUR+5 - LARGEUR/3 + 100, HAUTEUR-HAUTEUR/3 + 55))
+     fenetre.blit(texte1000,(LARGEUR+5 - LARGEUR/3 + 100 +10 + 15 , HAUTEUR-HAUTEUR/3 + 55))
      
-     texteSave = myfont.render('Facteur de temps : '+str(facteurTemps), True, (0, 0, 0))
+     texteSave = myfont.render('Facteur de temps : '+str(facteurTemps) +' timestep', True, (0, 0, 0))
      fenetre.blit(texteSave,(LARGEUR+5 - LARGEUR/3 + 10, HAUTEUR-HAUTEUR/3 + 30))
 
      texteStart = myfont.render('Start', True, (0, 0, 0))
@@ -497,13 +497,13 @@ while continuer:
      afficherCourbeConso() 
      afficherCourbeEolienne() 
     
-     puissanceTotale= myfont.render('puissanceTotale :'+ str(consoGlobale), True, (0, 0, 0))
+     puissanceTotale= myfont.render('puissanceTotale :'+ str(consoGlobale)+ ' MW', True, (0, 0, 0))
      fenetre.blit(puissanceTotale,(LARGEUR+5 - LARGEUR/3 +10,(HAUTEUR/3 - 50)*2 + 40 + 150))
-     carotte = myfont.render('production renouvelable :'+ str(ProdRenouvelable), True, (0, 0, 0))
+     carotte = myfont.render('production renouvelable :'+ str(ProdRenouvelable)+ ' MW', True, (0, 0, 0))
      fenetre.blit(carotte,(LARGEUR+5 - LARGEUR/3 +10,(HAUTEUR/3 - 50)*2 + 40 + 150 + 20))
-     carotte2 = myfont.render('production totale :'+ str(productionTotale), True, (0, 0, 0))
+     carotte2 = myfont.render('production totale :'+ str(productionTotale) + ' MW', True, (0, 0, 0))
      fenetre.blit(carotte2,(LARGEUR+5 - LARGEUR/3 +10,(HAUTEUR/3 - 50)*2 + 40 + 150 + 20 + 20))
-     carotte3 = myfont.render('Surplus :'+ str(score), True, (0, 0, 0))
+     carotte3 = myfont.render('Surplus :'+ str(score) + '%', True, (0, 0, 0))
      fenetre.blit(carotte3,(LARGEUR+5 - LARGEUR/3 +10,(HAUTEUR/3 - 50)*2 + 40 + 150 + 20 + 20 + 20))
    
 
