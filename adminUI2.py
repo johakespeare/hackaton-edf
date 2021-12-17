@@ -262,6 +262,7 @@ def dessinerConsom(fenetre,x,y):
     eolienne = PointConsommation("nom","lieu",fenetre,x,y)
     eolienne.dessiner()
     points2.append(eolienne)
+    log.append(["conso","nom","lieu",fenetre,str(x),str(x)])
 
     
     
