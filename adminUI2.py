@@ -231,11 +231,12 @@ pygame.draw.rect(fenetre, [210, 210, 210], boutonSave, border_radius=7)
 texteSave = myfont.render('Save', True, (0, 0, 0))
 fenetre.blit(texteSave,(OUTILS_X+ 210+50,10))
 
-'''
-def panne(step, pointProd):
-    if step=step:
+
+def panne(st, pointProd):
+    if st==step:
         pointProd.arreter()
-  '''      
+        pointProd.puissanceMax=0
+
 
   
 log=[]
@@ -313,12 +314,15 @@ def afficherPoints():
         
         y += 40
 
+st=10 #step de la panne
 
 def updateEtat():
     for i in range(b-a-1):
         global step,consoGlobale,ProdRenouvelable, productionTotale,score, consoGlobalePrec, productionTotaleTab
         time.sleep((pasTemps/facteurTemps))
         step+=1
+        pointProdPanne=points[1] #le deuxieme point de production aura une panne au step st
+        panne(st,pointProdPanne)
         consoGlobalePrec = consoGlobale
         consoGlobale=float(courbeConso[step])
         ProdRenouvelable=float(courbeENR[step]) 
