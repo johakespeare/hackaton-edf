@@ -10,9 +10,10 @@ import pygame
 from pygame.locals import *
 from PointProduction import *
 from PointConsommation import*
+from Ligne import*
 from config import saveLog
+
 from Jeu import *
-import csv
 
 """CONSTANTES"""
 
@@ -26,6 +27,8 @@ BLANC = (245,245,245)
 points = []
 reseau = []
 points2 = []
+consoGlobale = 0 
+consoGlobalePrec = 0 
 
 pygame.init()
 fenetre = pygame.display.set_mode((LARGEUR, HAUTEUR))
@@ -60,23 +63,36 @@ def dessinerLabelGauche():
 
 
 dessinerLabelGauche()
-     
+consoGlobaleTab = []  
+productionTotaleTab = []   
 def afficherCourbeConso():
+    
      surface = pygame.Surface((LARGEUR/3 - 10 -200, HAUTEUR/3 - 50))
      surface.fill((255,255,255))
      c =loadCourbe(49,98)
      x = 1
+     
      for i in range(0,len(c)-1) :
        
          y = HAUTEUR/5 - float(c[i]) + 150
          y2 = HAUTEUR/5 - float(c[i+1]) + 150
          pygame.draw.line( surface , (0,0,0) , [x,y], [x+5,y2], 2)
          x+=5
-    
+     x = 1
+
+     for i in range(0,len(consoGlobaleTab)-1) :
+         pygame.draw.line( surface , (255,0,0) , [x,HAUTEUR/5 - consoGlobaleTab[i] + 150], [x+5,HAUTEUR/5 - consoGlobaleTab[i+1] + 150], 2)
+         x+=5
+     x=1
+     for i in range(0,len(productionTotaleTab)-1) :
+         pygame.draw.line( surface , (0,255,0) , [x,HAUTEUR/5 - productionTotaleTab[i] + 150], [x+5,HAUTEUR/5 - productionTotaleTab[i+1] + 150], 2)
+         x+=5
      fenetre.blit(surface,(LARGEUR+5 - LARGEUR/3 + 10,10))
      texteSave = myfont.render('indication : Courbe de consommation (mW)', True, (0, 0, 0))
      fenetre.blit(texteSave,(LARGEUR+5 - LARGEUR/3 + 10,HAUTEUR/3 - 50 + 10))
-     
+
+
+ 
     
      
 def afficherCourbeEolienne():
@@ -102,7 +118,7 @@ labelDroit =  pygame.Rect(LARGEUR - LARGEUR/3 ,0, LARGEUR, HAUTEUR)
 
 vitesse = pygame.Rect(LARGEUR+5 - LARGEUR/3,HAUTEUR-HAUTEUR/3, LARGEUR/3 - 10, HAUTEUR/5)
 boutonStart = pygame.Rect(LARGEUR+5 - LARGEUR/3 + 10, HAUTEUR-HAUTEUR/3 + 5, 50, 25)
-boutonArret = pygame.Rect(LARGEUR+5 - LARGEUR/3 + 55 + 10, HAUTEUR-HAUTEUR/3 + 5, 50, 25)
+boutonRestart = pygame.Rect(LARGEUR+5 - LARGEUR/3 + 55 + 10, HAUTEUR-HAUTEUR/3 + 5, 50, 25)
 boutonX1  = pygame.Rect(LARGEUR+5 - LARGEUR/3 + 10, HAUTEUR-HAUTEUR/3 + 55, 25, 25)
 boutonX10  = pygame.Rect(LARGEUR+5 - LARGEUR/3 + 40, HAUTEUR-HAUTEUR/3 + 55, 25, 25)
 boutonX100  = pygame.Rect(LARGEUR+5 - LARGEUR/3 + 70, HAUTEUR-HAUTEUR/3 + 55, 25, 25)
@@ -116,7 +132,7 @@ pygame.draw.rect(fenetre, GRIS, labelDroit)
 
 pygame.draw.rect(fenetre, GRIS, vitesse )  
 pygame.draw.rect(fenetre, [210, 210, 210], boutonStart, border_radius=7)  
-pygame.draw.rect(fenetre, [210, 210, 210], boutonArret, border_radius=7) 
+pygame.draw.rect(fenetre, [210, 210, 210], boutonRestart, border_radius=7) 
 boutonX1  = pygame.Rect(LARGEUR+5 - LARGEUR/3 + 10, HAUTEUR-HAUTEUR/3 + 55, 25, 25)
 boutonX10  = pygame.Rect(LARGEUR+5 - LARGEUR/3 + 40, HAUTEUR-HAUTEUR/3 + 55, 25, 25)
 boutonX100  = pygame.Rect(LARGEUR+5 - LARGEUR/3 + 70, HAUTEUR-HAUTEUR/3 + 55, 25, 25)
@@ -138,6 +154,7 @@ texteStart = myfont.render('Start', True, (0, 0, 0))
 fenetre.blit(texteStart,(LARGEUR+5 - LARGEUR/3 + 10 + 10, HAUTEUR-HAUTEUR/3 + 5 +2))
 textePause = myfont.render('Pause', True, (0, 0, 0))
 fenetre.blit(textePause,(LARGEUR+5 - LARGEUR/3 + 55 + 10 + 10, HAUTEUR-HAUTEUR/3 + 5 + 2))
+
 afficherCourbeConso() 
 afficherCourbeEolienne() 
 
@@ -216,8 +233,10 @@ fenetre.blit(texteSave,(OUTILS_X+ 210+50,10))
 
 
 
-log=[]
+
   
+log=[]
+
 
 
 def dessinerEolienne(fenetre,x,y):
@@ -252,14 +271,14 @@ def dessinerPhoto(fenetre,x,y):
 def dessinerHydro(fenetre,x,y):
     eolienne = PointProduction("nom","lieu",None,x,y,fenetre,"hydro.png",True)
     eolienne.dessiner()
-    points.append(eolienne)   
+    points.append(eolienne)  
     log.append(["hydro","nom","lieu",fenetre,str(x),str(x)])
 
 
 
 
 def dessinerConsom(fenetre,x,y):
-    eolienne = PointConsommation("nom","lieu",fenetre,x,y)
+    eolienne = PointConsommation("nomlieu",fenetre,x,y)
     eolienne.dessiner()
     points2.append(eolienne)
     log.append(["conso","nom","lieu",fenetre,str(x),str(x)])
@@ -276,12 +295,11 @@ def afficherReseaux():
     x = 0
     y = HAUTEUR / 2 + 30
     for lien in reseau :
-        texte = str(lien[0].name)+" et "+ str(lien[1].name)
-        texte = myfont.render("reseau : "+str(lien[0].name), True, (0, 0, 0))
-        fenetre.blit(texte,(x,y))
-        texte = myfont.render("            "+str(lien[1].name), True, (0, 0, 0))
-        fenetre.blit(texte,(x,y+15))
+        lien.afficher(fenetre,x,y)
         y += 30
+        
+        
+        
 
 def afficherPoints():
     x = 0
@@ -295,13 +313,13 @@ def afficherPoints():
 
 def updateEtat():
     for i in range(b-a-1):
-        global step,consoGlobale,ProdRenouvelable, productionTotale
+        global step,consoGlobale,ProdRenouvelable, productionTotale,score, consoGlobalePrec, productionTotaleTab
         time.sleep((pasTemps/facteurTemps))
         step+=1
-
+        consoGlobalePrec = consoGlobale
         consoGlobale=float(courbeConso[step])
         ProdRenouvelable=float(courbeENR[step]) 
-        
+        consoGlobaleTab.append(consoGlobale)
         somme = 0
         for e in points2:
             e.puissance=e.puissance*consoGlobale/100
@@ -309,6 +327,8 @@ def updateEtat():
             somme += e.puissance
             
         productionTotale = somme + ProdRenouvelable
+        productionTotaleTab.append(productionTotale)
+        score =  productionTotale - consoGlobale
         
         
             
@@ -329,7 +349,8 @@ with open('courbeConso.csv') as csv_file:
         
 pasTemps=60
 facteurTemps=1       
-consoGlobale = 0  
+consoGlobale = 0 
+consoGlobalePrec = 0 
 ProdRenouvelable = 0 
 productionTotale = 0   
 continuer = 1
@@ -337,7 +358,8 @@ isPressed = False
 bouton = None
 couple = []
 step = 0
-
+score = 0
+pause = False
 while continuer:
      for event in pygame.event.get():
             
@@ -347,6 +369,13 @@ while continuer:
                         point.ajouterPuissance()
                      if point.boutonMoins.collidepoint(pygame.mouse.get_pos()) and isPressed==True:
                         point.baisserPuissance()
+                     if point.boutonMoins.collidepoint(pygame.mouse.get_pos()) and isPressed==True:
+                        point.baisserPuissance()
+                     if point.boutonOnOff.collidepoint(pygame.mouse.get_pos()) and isPressed==True:
+                         if point.allumer :
+                             point.arreter()
+                         else:
+                             point.demarrer()
                         
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -371,6 +400,14 @@ while continuer:
                         p.setPuissance(float(courbeConso[step])/len(points2))
                     thread=threading.Thread(target=updateEtat)
                     thread.start()
+            
+            if boutonRestart.collidepoint(pygame.mouse.get_pos()) and isPressed==True:  
+                if not pause :
+                    facteurTemps = 0
+                    pause = True
+                else :
+                    facteurTemps = 10
+                    pause = False
             if boutonX1.collidepoint(pygame.mouse.get_pos()) and isPressed==True:        
                 facteurTemps = 1
             if boutonX10.collidepoint(pygame.mouse.get_pos()) and isPressed==True:        
@@ -387,7 +424,7 @@ while continuer:
                isPressed = True
                ( x, y ) = pygame.mouse.get_pos()  
                
-               if(x<LARGEUR-LARGEUR/3) and(x>LARGEUR/3 - 250) and(y> 50) and (y<HAUTEUR-50):
+               if(x<LARGEUR-LARGEUR/3) and(x>LARGEUR/3) and(y> 50) and (y<HAUTEUR-50):
                    if bouton=="eolienne":    
                         dessinerEolienne(fenetre,x,y)                    
                    elif bouton=="thermique":    
@@ -408,7 +445,9 @@ while continuer:
                                 couple.append(point)
                                 if(len(couple)==2):
                                      pygame.draw.line( fenetre , ORANGE , [couple[0].x, couple[0].y], [couple[1].x,couple[1].y], 5 )
-                                     reseau.append((couple[0],couple[1]))
+                                     ligne = Ligne(couple[0],couple[1])
+                                     log.append(["ligne",ligne])
+                                     reseau.append(ligne)
                                      couple.clear()
                                      
                
@@ -431,7 +470,7 @@ while continuer:
     
      vitesse = pygame.Rect(LARGEUR+5 - LARGEUR/3,HAUTEUR-HAUTEUR/3, LARGEUR/3 - 10, HAUTEUR/5)
      boutonStart = pygame.Rect(LARGEUR+5 - LARGEUR/3 + 10, HAUTEUR-HAUTEUR/3 + 5, 50, 25)
-     boutonArret = pygame.Rect(LARGEUR+5 - LARGEUR/3 + 55 + 10, HAUTEUR-HAUTEUR/3 + 5, 50, 25)
+     boutonRestart = pygame.Rect(LARGEUR+5 - LARGEUR/3 + 55 + 10, HAUTEUR-HAUTEUR/3 + 5, 50, 25)
      boutonX1  = pygame.Rect(LARGEUR+5 - LARGEUR/3 + 10, HAUTEUR-HAUTEUR/3 + 55, 25, 25)
      boutonX10  = pygame.Rect(LARGEUR+5 - LARGEUR/3 + 40, HAUTEUR-HAUTEUR/3 + 55, 25, 25)
      boutonX100  = pygame.Rect(LARGEUR+5 - LARGEUR/3 + 70, HAUTEUR-HAUTEUR/3 + 55, 25, 25)
@@ -443,7 +482,7 @@ while continuer:
     
      pygame.draw.rect(fenetre, GRIS, vitesse )  
      pygame.draw.rect(fenetre, [210, 210, 210], boutonStart, border_radius=7)  
-     pygame.draw.rect(fenetre, [210, 210, 210], boutonArret, border_radius=7) 
+     pygame.draw.rect(fenetre, [210, 210, 210], boutonRestart, border_radius=7) 
      pygame.draw.rect(fenetre,[210, 210, 210] , boutonX1) 
      pygame.draw.rect(fenetre, [210, 210, 210], boutonX10) 
      pygame.draw.rect(fenetre, [210, 210, 210], boutonX100) 
@@ -464,7 +503,7 @@ while continuer:
      texteStart = myfont.render('Start', True, (0, 0, 0))
      fenetre.blit(texteStart,(LARGEUR+5 - LARGEUR/3 + 10 + 10, HAUTEUR-HAUTEUR/3 + 5 +2))
      textePause = myfont.render('Pause', True, (0, 0, 0))
-     fenetre.blit(textePause,(LARGEUR+5 - LARGEUR/3 + 55 + 10 + 10, HAUTEUR-HAUTEUR/3 + 5 + 2))
+     fenetre.blit(textePause,(LARGEUR+5 - LARGEUR/3 + 55 + 10 + 5, HAUTEUR-HAUTEUR/3 + 5 + 2))
      afficherCourbeConso() 
      afficherCourbeEolienne() 
     
@@ -474,6 +513,8 @@ while continuer:
      fenetre.blit(carotte,(LARGEUR+5 - LARGEUR/3 +10,(HAUTEUR/3 - 50)*2 + 40 + 150 + 20))
      carotte2 = myfont.render('production totale :'+ str(productionTotale), True, (0, 0, 0))
      fenetre.blit(carotte2,(LARGEUR+5 - LARGEUR/3 +10,(HAUTEUR/3 - 50)*2 + 40 + 150 + 20 + 20))
+     carotte3 = myfont.render('Surplus :'+ str(score), True, (0, 0, 0))
+     fenetre.blit(carotte3,(LARGEUR+5 - LARGEUR/3 +10,(HAUTEUR/3 - 50)*2 + 40 + 150 + 20 + 20 + 20))
    
 
         

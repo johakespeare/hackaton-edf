@@ -32,12 +32,16 @@ def readLog():
         for row in csv_reader:
             listParam=[]
             typePoint=row[0]
-            nomPoint=row[1]
-            lieuPoint=row[2]
-            surface=row[3]
-            x=row[4]
-            y=row[5]
-            listParam.append((typePoint,nomPoint,lieuPoint,surface,x,y))
+            if typePoint=='ligne':
+                surface=row[1]
+                listParam.append((typePoint,surface,))
+            else:
+                nomPoint=row[1]
+                lieuPoint=row[2]
+                surface=row[3]            
+                x=row[4]
+                y=row[5]
+                listParam.append((typePoint,nomPoint,lieuPoint,surface,x,y))
             listElem.append(listParam)
     return listElem
             
