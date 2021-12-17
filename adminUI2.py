@@ -389,7 +389,7 @@ while continuer:
                isPressed = True
                ( x, y ) = pygame.mouse.get_pos()  
                
-               if(x<LARGEUR-LARGEUR/3) and(x>LARGEUR/3 - 250) and(y> 50) and (y<HAUTEUR-50):
+               if(x<LARGEUR-LARGEUR/3) and(x>LARGEUR/3) and(y> 50) and (y<HAUTEUR-50):
                    if bouton=="eolienne":    
                         dessinerEolienne(fenetre,x,y)                    
                    elif bouton=="thermique":    
