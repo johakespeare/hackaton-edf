@@ -3,12 +3,14 @@ from Point import Point
 
 class PointConsommation(Point):
 
-    def __init__(self, name, puissance):
+    def __init__(self, name, puissance, lieu, lignes):
         self.name = name
-<<<<<<< HEAD
         self.lieu = lieu
         self.puissance = puissance
-        
-=======
-        self.puissance = puissance
->>>>>>> a1aa84708d4061a5344340c84d6bd2b41f8dd9c4
+        self.lignes = lignes
+
+    def consommationTotale(self):
+        if not self.lignes:
+            return 0
+        else:
+            return sum(ligne.transit for ligne in self.lignes)
