@@ -30,7 +30,7 @@ pointsProd=[]
 etat=[]
 
 
-def loadCourbe(a,b):
+def loadCourbe(a,b): #retourne la consommation totale
     courbeMain=[]
     with open('courbeConso.csv') as csv_file:
         csv_reader = csv.reader(csv_file, delimiter=',')
@@ -41,7 +41,7 @@ def loadCourbe(a,b):
             line_count+=1
     return courbeMain
             
-def loadCourbe2(a,b):
+def loadCourbe2(a,b): #retourne la production ENR
     courbeMain=[]
     with open('courbeConso.csv') as csv_file:
         csv_reader = csv.reader(csv_file, delimiter=',')
