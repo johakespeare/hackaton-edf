@@ -23,6 +23,8 @@ class PointProduction(Point):
         self.puissanceMin = 0
         self.puissanceMax = 150
         self.renouvelable = renouvelable
+        self.allumer = True
+        
       
     def ajouterPuissance(self):
         if self.puissance + 10 > self.puissanceMax:
@@ -38,10 +40,14 @@ class PointProduction(Point):
             self.puissance = self.puissance - 10
 
     def arreter(self):
+        
+        self.value = self.puissance
         self.puissance = 0
+        self.allumer = False
 
-    def demarrer(self, value):
-        self.puissance = value
+    def demarrer(self):
+        self.puissance = self.value
+        self.allumer = True
 
     def production(self):
         for i in self.groupes:
@@ -71,11 +77,13 @@ class PointProduction(Point):
             self.boutonMoins = pygame.Rect(x + 130+ 30 , y, 20, 20)
             self.fenetre.blit(image_moins,(x + 130 + 30, y))
             
-            image_onoff = pygame.image.load("moins.png").convert_alpha()
-            image_onoff = pygame.transform.scale(image_onoff, (20,20))
-            
-            self.boutonOnOff = pygame.Rect(x + 130 + 60, y, 20, 20)
-            self.fenetre.blit(image_onoff,(x + 130 + 60, y))
-        
+           
+            boutonOnOffe = pygame.Rect(x + 130 + 60, y, 20, 20)  
+            if self.allumer :
+                self.boutonOnOff = pygame.draw.rect(self.fenetre, [0, 255, 0], boutonOnOffe)
+            else :
+                self.boutonOnOff = pygame.draw.rect(self.fenetre, [255, 0, 0], boutonOnOffe)
+                
+                
         texte = myfont.render("capacite = "+ str(self.puissance), True, (0, 0, 0))
         self.fenetre.blit(texte,(x+10,y+10))

@@ -3,8 +3,8 @@ import pygame
 
 class PointConsommation(Point):
 
-    def __init__(self, name, lieu,fenetre,x,y):
-        self.name = name
+    def __init__(self, lieu,fenetre,x,y):
+        self.name = "point de consommation"
         self.lieu = lieu
   
         self.fenetre = fenetre
@@ -12,6 +12,7 @@ class PointConsommation(Point):
         self.image = pygame.transform.scale(image, (30,30))
         self.x = x
         self.y = y
+        self.puissance = 10
 
     def dessiner(self):
         self.fenetre.blit(self.image, (self.x,self.y))

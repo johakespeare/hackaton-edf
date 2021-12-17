@@ -10,6 +10,7 @@ import pygame
 from pygame.locals import *
 from PointProduction import *
 from PointConsommation import*
+from Ligne import*
 
 from Jeu import *
 
@@ -255,7 +256,7 @@ def dessinerHydro(fenetre,x,y):
 
 
 def dessinerConsom(fenetre,x,y):
-    eolienne = PointConsommation("nom","lieu",fenetre,x,y)
+    eolienne = PointConsommation("nomlieu",fenetre,x,y)
     eolienne.dessiner()
     points2.append(eolienne)
 
@@ -271,12 +272,11 @@ def afficherReseaux():
     x = 0
     y = HAUTEUR / 2 + 30
     for lien in reseau :
-        texte = str(lien[0].name)+" et "+ str(lien[1].name)
-        texte = myfont.render("reseau : "+str(lien[0].name), True, (0, 0, 0))
-        fenetre.blit(texte,(x,y))
-        texte = myfont.render("            "+str(lien[1].name), True, (0, 0, 0))
-        fenetre.blit(texte,(x,y+15))
+        lien.afficher(fenetre,x,y)
         y += 30
+        
+        
+        
 
 def afficherPoints():
     x = 0
@@ -342,6 +342,13 @@ while continuer:
                         point.ajouterPuissance()
                      if point.boutonMoins.collidepoint(pygame.mouse.get_pos()) and isPressed==True:
                         point.baisserPuissance()
+                     if point.boutonMoins.collidepoint(pygame.mouse.get_pos()) and isPressed==True:
+                        point.baisserPuissance()
+                     if point.boutonOnOff.collidepoint(pygame.mouse.get_pos()) and isPressed==True:
+                         if point.allumer :
+                             point.arreter()
+                         else:
+                             point.demarrer()
                         
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -401,7 +408,8 @@ while continuer:
                                 couple.append(point)
                                 if(len(couple)==2):
                                      pygame.draw.line( fenetre , ORANGE , [couple[0].x, couple[0].y], [couple[1].x,couple[1].y], 5 )
-                                     reseau.append((couple[0],couple[1]))
+                                     ligne = Ligne(couple[0],couple[1])
+                                     reseau.append(ligne)
                                      couple.clear()
                                      
                
