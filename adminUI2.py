@@ -26,6 +26,8 @@ BLANC = (245,245,245)
 points = []
 reseau = []
 points2 = []
+consoGlobale = 0 
+consoGlobalePrec = 0 
 
 pygame.init()
 fenetre = pygame.display.set_mode((LARGEUR, HAUTEUR))
@@ -60,23 +62,30 @@ def dessinerLabelGauche():
 
 
 dessinerLabelGauche()
-     
+consoGlobaleTab = []     
 def afficherCourbeConso():
+    
      surface = pygame.Surface((LARGEUR/3 - 10 -200, HAUTEUR/3 - 50))
      surface.fill((255,255,255))
      c =loadCourbe(49,98)
      x = 1
+     
      for i in range(0,len(c)-1) :
        
          y = HAUTEUR/5 - float(c[i]) + 150
          y2 = HAUTEUR/5 - float(c[i+1]) + 150
          pygame.draw.line( surface , (0,0,0) , [x,y], [x+5,y2], 2)
          x+=5
-    
+     x = 1
+     for i in range(0,len(consoGlobaleTab)-1) :
+         pygame.draw.line( surface , (255,0,0) , [x,HAUTEUR/5 - consoGlobaleTab[i] + 150], [x+5,HAUTEUR/5 - consoGlobaleTab[i+1] + 150], 2)
+         x+=5
      fenetre.blit(surface,(LARGEUR+5 - LARGEUR/3 + 10,10))
      texteSave = myfont.render('indication : Courbe de consommation (mW)', True, (0, 0, 0))
      fenetre.blit(texteSave,(LARGEUR+5 - LARGEUR/3 + 10,HAUTEUR/3 - 50 + 10))
-     
+
+
+ 
     
      
 def afficherCourbeEolienne():
@@ -290,13 +299,13 @@ def afficherPoints():
 
 def updateEtat():
     for i in range(b-a-1):
-        global step,consoGlobale,ProdRenouvelable, productionTotale,score
+        global step,consoGlobale,ProdRenouvelable, productionTotale,score, consoGlobalePrec
         time.sleep((pasTemps/facteurTemps))
         step+=1
-
+        consoGlobalePrec = consoGlobale
         consoGlobale=float(courbeConso[step])
         ProdRenouvelable=float(courbeENR[step]) 
-        
+        consoGlobaleTab.append(consoGlobale)
         somme = 0
         for e in points2:
             e.puissance=e.puissance*consoGlobale/100
@@ -325,7 +334,8 @@ with open('courbeConso.csv') as csv_file:
         
 pasTemps=60
 facteurTemps=1       
-consoGlobale = 0  
+consoGlobale = 0 
+consoGlobalePrec = 0 
 ProdRenouvelable = 0 
 productionTotale = 0   
 continuer = 1
